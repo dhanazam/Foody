@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+    kotlin("kapt")
 }
 
 android {
@@ -38,6 +39,7 @@ android {
 
     buildFeatures {
         dataBinding = true
+        viewBinding = true
     }
 }
 
@@ -57,15 +59,15 @@ dependencies {
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
 
     // Material Components
-    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.google.android.material:material:1.10.0")
 
     // Navigation Component
-    implementation("androidx.navigation:navigation-fragment-ktx:2.3.0")
-    implementation("androidx.navigation:navigation-ui-ktx:2.3.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
 
     // Room components
     implementation("androidx.room:room-runtime:2.2.5")
-    ksp("androidx.room:room-compiler:2.2.5")
+    kapt("androidx.room:room-compiler:2.2.5")
     implementation("androidx.room:room-ktx:2.2.5")
 
     // DataStore
@@ -80,5 +82,28 @@ dependencies {
 
     // Dagger-Hilt
     implementation("com.google.dagger:hilt-android:2.44")
-    ksp("com.google.dagger:hilt-android-compiler:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02")
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+
+    // Lifecycle
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
+
+    // Image Loading library Coil
+    implementation("io.coil-kt:coil:0.13.0")
+
+    // Gson
+    implementation("com.google.code.gson:gson:2.8.6")
+
+    // Shimmer
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
+
+    // Jsoup
+    implementation("org.jsoup:jsoup:1.13.1")
 }
