@@ -1,8 +1,7 @@
 package com.dhanazam.foody.di
 
-import android.app.Application
-import com.dhanazam.foody.Constants.Companion.BASE_URL
-import com.dhanazam.foody.FoodRecipesApi
+import com.dhanazam.foody.util.Constants.Companion.BASE_URL
+import com.dhanazam.foody.data.network.FoodRecipesApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
