@@ -1,4 +1,4 @@
-package com.dhanazam.foody
+package com.dhanazam.foody.util
 
 class Constants {
 

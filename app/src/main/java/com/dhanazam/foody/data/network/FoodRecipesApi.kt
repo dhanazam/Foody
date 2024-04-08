@@ -1,4 +1,4 @@
-package com.dhanazam.foody
+package com.dhanazam.foody.data.network
 
 import com.dhanazam.foody.models.FoodRecipe
 import retrofit2.Response
