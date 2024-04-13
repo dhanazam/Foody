@@ -15,6 +15,7 @@ import com.dhanazam.foody.R
 import com.dhanazam.foody.adapter.RecipesAdapter
 import com.dhanazam.foody.util.Constants.Companion.API_KEY
 import com.dhanazam.foody.util.NetworkResult
+import com.facebook.shimmer.ShimmerFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,22 +24,23 @@ class RecipesFragment : Fragment() {
     private val mainViewModel: MainViewModel by viewModels()
     private val mAdapter by lazy { RecipesAdapter() }
     private lateinit var mView: View
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var shimmer: ShimmerFrameLayout
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_recipes, container, false)
-        val recyclerView: RecyclerView = mView.findViewById(R.id.recyclerview)
-        setupRecyclerView(recyclerView)
         requestApiData()
+
         return mView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
+        recyclerView = mView.findViewById(R.id.recyclerview)
+        shimmer = mView.findViewById(R.id.shimmerFrameLayout)
+        setupRecyclerView()
     }
 
     private fun requestApiData() {
@@ -47,12 +49,12 @@ class RecipesFragment : Fragment() {
             Log.d("response api -->", response.data.toString())
             when (response) {
                 is NetworkResult.Success -> {
-//                    hideShimmerEffect()
+                    hideShimmerEffect()
                     response.data?.let { mAdapter.setData(it) }
                 }
 
                 is NetworkResult.Error -> {
-//                    hideShimmerEffect()
+                    hideShimmerEffect()
                     Toast.makeText(
                         requireContext(),
                         response.message.toString(),
@@ -61,7 +63,7 @@ class RecipesFragment : Fragment() {
                 }
 
                 is NetworkResult.Loading -> {
-//                    showShimmerEffect()
+                    showShimmerEffect()
                 }
             }
         }
@@ -80,16 +82,16 @@ class RecipesFragment : Fragment() {
         return queries
     }
 
-    private fun setupRecyclerView(recyclerView: RecyclerView) {
+    private fun setupRecyclerView() {
         recyclerView.adapter = mAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun showShimmerEffect() {
-
+        shimmer.startShimmer()
     }
 
     private fun hideShimmerEffect() {
-
+        shimmer.hideShimmer()
     }
 }
