@@ -1,5 +1,6 @@
 package com.dhanazam.foody.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,11 +10,14 @@ import com.dhanazam.foody.models.FoodRecipe
 import com.dhanazam.foody.models.Result
 import com.dhanazam.foody.util.RecipesDiffUtil
 
-class RecipesAdapter: RecyclerView.Adapter<RecipesAdapter.MyViewHolder> () {
+class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
 
     private var recipes = emptyList<Result>()
-    class MyViewHolder(private val binding: RecipesRowLayoutBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(result: Result) {
+
+    class MyViewHolder(private val binding: RecipesRowLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(result: Result){
             binding.result = result
             binding.executePendingBindings()
         }
@@ -25,14 +29,11 @@ class RecipesAdapter: RecyclerView.Adapter<RecipesAdapter.MyViewHolder> () {
                 return MyViewHolder(binding)
             }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         return MyViewHolder.from(parent)
-    }
-
-    override fun getItemCount(): Int {
-        return recipes.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -40,10 +41,15 @@ class RecipesAdapter: RecyclerView.Adapter<RecipesAdapter.MyViewHolder> () {
         holder.bind(currentRecipe)
     }
 
-    fun setData(newData: FoodRecipe) {
-        val recipesDiffUtil = RecipesDiffUtil(recipes, newData.result)
+    override fun getItemCount(): Int {
+        return recipes.size
+    }
+
+    fun setData(newData: FoodRecipe){
+        val recipesDiffUtil =
+            RecipesDiffUtil(recipes, newData.results)
         val diffUtilResult = DiffUtil.calculateDiff(recipesDiffUtil)
-        recipes = newData.result
+        recipes = newData.results
         diffUtilResult.dispatchUpdatesTo(this)
     }
 }
