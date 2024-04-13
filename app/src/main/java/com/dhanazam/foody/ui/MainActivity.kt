@@ -9,7 +9,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.dhanazam.foody.R
 import com.dhanazam.foody.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

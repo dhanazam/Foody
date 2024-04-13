@@ -4,18 +4,20 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.dhanazam.foody.data.Repository
 import com.dhanazam.foody.models.FoodRecipe
 import com.dhanazam.foody.util.NetworkResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.lang.Exception
+import javax.inject.Inject
 
-class MainViewModel @ViewModelInject constructor(
+@HiltViewModel
+class MainViewModel @Inject constructor(
     private val repository: Repository,
     application: Application
 ): AndroidViewModel(application) {
@@ -48,7 +50,7 @@ class MainViewModel @ViewModelInject constructor(
             response.code() == 402 -> {
                 return NetworkResult.Error("API Key Limited")
             }
-            response.body()!!.result.isNullOrEmpty() -> {
+            response.body()!!.results.isNullOrEmpty() -> {
                 return NetworkResult.Error("Recipes not found")
             }
             response.isSuccessful -> {
