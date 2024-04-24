@@ -1,4 +1,4 @@
-package com.dhanazam.foody
+package com.dhanazam.foody.data.database
 
 import androidx.room.Dao
 import androidx.room.Insert
