@@ -16,6 +16,7 @@ import com.dhanazam.foody.R
 import com.dhanazam.foody.adapter.RecipesAdapter
 import com.dhanazam.foody.util.Constants.Companion.API_KEY
 import com.dhanazam.foody.util.NetworkResult
+import com.dhanazam.foody.util.observerOnce
 import com.dhanazam.foody.viewmodels.RecipesViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +44,7 @@ class RecipesFragment : Fragment() {
 
     private fun readDatabase() {
         lifecycleScope.launch {
-            mainViewModel.readRecipes.observe(viewLifecycleOwner) { database ->
+            mainViewModel.readRecipes.observerOnce(viewLifecycleOwner) { database ->
                 if (database.isNotEmpty()) {
                     Log.d("RecipesFragment", "readDatabase called!")
                     mAdapter.setData(database[0].foodRecipe)
