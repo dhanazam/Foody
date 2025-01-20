@@ -10,36 +10,40 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.dhanazam.foody.viewmodels.MainViewModel
-import com.dhanazam.foody.R
 import com.dhanazam.foody.adapter.RecipesAdapter
-import com.dhanazam.foody.util.Constants.Companion.API_KEY
+import com.dhanazam.foody.databinding.FragmentRecipesBinding
 import com.dhanazam.foody.util.NetworkResult
 import com.dhanazam.foody.util.observerOnce
 import com.dhanazam.foody.viewmodels.RecipesViewModel
-import com.facebook.shimmer.ShimmerFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class  RecipesFragment : Fragment() {
 
+    private var _binding: FragmentRecipesBinding? = null
+    private val binding get() = _binding!!
+
     private val mainViewModel: MainViewModel by viewModels()
     private val recipesViewModel: RecipesViewModel by viewModels()
 
     private val mAdapter by lazy { RecipesAdapter() }
-    private lateinit var mView: View
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var shimmer: ShimmerFrameLayout
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mView = inflater.inflate(R.layout.fragment_recipes, container, false)
+        _binding = FragmentRecipesBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+        binding.mainViewModel = mainViewModel
         readDatabase()
 
-        return mView
+        setupRecyclerView()
+        binding.recipesFab.setOnClickListener {
+
+        }
+        return binding.root
     }
 
     private fun readDatabase() {
@@ -56,15 +60,7 @@ class  RecipesFragment : Fragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        recyclerView = mView.findViewById(R.id.recyclerview)
-        shimmer = mView.findViewById(R.id.shimmerFrameLayout)
-        setupRecyclerView()
-    }
-
     private fun requestApiData() {
-        Log.d("RecipesFragment", "requestApiData called!")
         mainViewModel.getRecipes(recipesViewModel.applyQueries())
         mainViewModel.recipesResponse.observe(viewLifecycleOwner) { response ->
             Log.d("response api -->", response.data.toString())
@@ -102,15 +98,20 @@ class  RecipesFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        recyclerView.adapter = mAdapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerview.adapter = mAdapter
+        binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
+        showShimmerEffect()
     }
 
     private fun showShimmerEffect() {
-        shimmer.startShimmer()
+        binding.shimmerFrameLayout.startShimmer()
+        binding.shimmerFrameLayout.visibility = View.VISIBLE
+        binding.recyclerview.visibility = View.GONE
     }
 
     private fun hideShimmerEffect() {
-        shimmer.hideShimmer()
+        binding.shimmerFrameLayout.stopShimmer()
+        binding.shimmerFrameLayout.visibility = View.GONE
+        binding.recyclerview.visibility = View.VISIBLE
     }
 }
