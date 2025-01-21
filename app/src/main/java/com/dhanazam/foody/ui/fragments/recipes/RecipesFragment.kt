@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dhanazam.foody.R
 import com.dhanazam.foody.viewmodels.MainViewModel
 import com.dhanazam.foody.adapter.RecipesAdapter
 import com.dhanazam.foody.databinding.FragmentRecipesBinding
@@ -37,11 +39,12 @@ class  RecipesFragment : Fragment() {
         _binding = FragmentRecipesBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.mainViewModel = mainViewModel
+
         readDatabase()
-
         setupRecyclerView()
-        binding.recipesFab.setOnClickListener {
 
+        binding.recipesFab.setOnClickListener {
+            findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
         }
         return binding.root
     }
@@ -50,7 +53,6 @@ class  RecipesFragment : Fragment() {
         lifecycleScope.launch {
             mainViewModel.readRecipes.observerOnce(viewLifecycleOwner) { database ->
                 if (database.isNotEmpty()) {
-                    Log.d("RecipesFragment", "readDatabase called!")
                     mAdapter.setData(database[0].foodRecipe)
                     hideShimmerEffect()
                 } else {
@@ -113,5 +115,10 @@ class  RecipesFragment : Fragment() {
         binding.shimmerFrameLayout.stopShimmer()
         binding.shimmerFrameLayout.visibility = View.GONE
         binding.recyclerview.visibility = View.VISIBLE
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }
