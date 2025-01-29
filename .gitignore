@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+/src/main/java/com/dhanazam/foody/util/Constants.kt
