@@ -47,8 +47,8 @@ class RecipesViewModel @Inject constructor (
 
         queries[QUERY_NUMBER] = DEFAULT_RECIPES_NUMBER
         queries[QUERY_API_KEY] = API_KEY
-        queries[QUERY_TYPE] = DEFAULT_MEAL_TYPE
-        queries[QUERY_DIET] = DEFAULT_DIET_TYPE
+        queries[QUERY_TYPE] = mealType
+        queries[QUERY_DIET] = dietType
         queries[QUERY_ADD_RECIPE_INFORMATION] = "true"
         queries[QUERY_FILL_INGREDIENTS] = "true"
 
