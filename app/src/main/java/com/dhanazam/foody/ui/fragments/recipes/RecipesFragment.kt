@@ -16,6 +16,7 @@ import com.dhanazam.foody.R
 import com.dhanazam.foody.viewmodels.MainViewModel
 import com.dhanazam.foody.adapter.RecipesAdapter
 import com.dhanazam.foody.databinding.FragmentRecipesBinding
+import com.dhanazam.foody.util.NetworkListener
 import com.dhanazam.foody.util.NetworkResult
 import com.dhanazam.foody.util.observerOnce
 import com.dhanazam.foody.viewmodels.RecipesViewModel
@@ -32,8 +33,9 @@ class  RecipesFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by viewModels()
     private val recipesViewModel: RecipesViewModel by viewModels()
-
     private val mAdapter by lazy { RecipesAdapter() }
+
+    private lateinit var networkListener: NetworkListener
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,8 +48,23 @@ class  RecipesFragment : Fragment() {
         readDatabase()
         setupRecyclerView()
 
+        lifecycleScope.launch {
+            networkListener = NetworkListener()
+            networkListener.checkNetworkAvailability(requireContext())
+                .collect { status ->
+                    Log.d("NetworkListener", status.toString())
+                    recipesViewModel.networkStatus = status
+                    recipesViewModel.showNetworkStatus()
+                    readDatabase()
+                }
+        }
+
         binding.recipesFab.setOnClickListener {
-            findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
+            if (recipesViewModel.networkStatus) {
+                findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
+            } else {
+                recipesViewModel.showNetworkStatus()
+            }
         }
         return binding.root
     }
