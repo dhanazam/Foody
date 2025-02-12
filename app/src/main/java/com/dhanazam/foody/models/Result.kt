@@ -1,8 +1,11 @@
 package com.dhanazam.foody.models
 
-import com.dhanazam.foody.models.ExtendedIngredient
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
+@Parcelize
 data class Result(
     @SerializedName("aggregateLikes")
     val aggregateLikes: Int,
@@ -11,7 +14,7 @@ data class Result(
     @SerializedName("diaryFree")
     val dairyFree: Boolean,
     @SerializedName("extendedIngredients")
-    val extendedIngredient: List<ExtendedIngredient>,
+    val extendedIngredient: @RawValue List<ExtendedIngredient>,
     @SerializedName("glutenFree")
     val glutenFree: Boolean,
     @SerializedName("id")
@@ -34,4 +37,4 @@ data class Result(
     val vegetarian: Boolean,
     @SerializedName("veryHealthy")
     val veryHealthy: Boolean
-)
+) : Parcelable
