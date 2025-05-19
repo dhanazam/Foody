@@ -15,7 +15,10 @@ import com.dhanazam.foody.R
 import com.dhanazam.foody.bindingadapters.RecipesRowBinding
 import com.dhanazam.foody.databinding.FragmentOverviewBinding
 import com.dhanazam.foody.models.Result
+import com.dhanazam.foody.util.Constants.Companion.RECIPE_RESULT_KEY
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OverviewFragment : Fragment() {
 
     private var _binding: FragmentOverviewBinding? = null
@@ -30,7 +33,7 @@ class OverviewFragment : Fragment() {
         _binding = FragmentOverviewBinding.inflate(inflater, container, false)
 
         val args = arguments
-        val myBundle: Result? = args?.getParcelable("recipeBundle", Result::class.java)
+        val myBundle: Result? = args?.getParcelable(RECIPE_RESULT_KEY, Result::class.java)
 
         if (myBundle != null) {
             binding.mainImageView.load(myBundle.image)

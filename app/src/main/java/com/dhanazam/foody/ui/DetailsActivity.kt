@@ -13,7 +13,9 @@ import com.dhanazam.foody.ui.fragments.ingredients.IngredientsFragment
 import com.dhanazam.foody.ui.fragments.instructions.InstructionsFragment
 import com.dhanazam.foody.ui.fragments.overview.OverviewFragment
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailsActivity : AppCompatActivity() {
 
     private val args by navArgs<DetailsActivityArgs>()
