@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.dhanazam.foody.data.Repository
-import com.dhanazam.foody.data.database.RecipesEntity
+import com.dhanazam.foody.data.database.entities.RecipesEntity
 import com.dhanazam.foody.models.FoodRecipe
 import com.dhanazam.foody.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,7 +1,7 @@
 package com.dhanazam.foody.data
 
 import com.dhanazam.foody.data.database.RecipesDao
-import com.dhanazam.foody.data.database.RecipesEntity
+import com.dhanazam.foody.data.database.entities.RecipesEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
